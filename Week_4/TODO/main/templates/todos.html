@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block body %}
+<hr>
+    <h1>Tasks in "List 1"</h1>
+<table>
+    <tr>
+        <form action="{%url 'order_by' 'name' %}">
+            {% csrf_token %}
+            <td><button class = "filter">Task&#129055;</button></td>
+        </form>
+        <form action="{%url 'order_by' 'created_time' %}">
+            {% csrf_token %}
+            <td><button class = "filter">Created Time&#129055;</button></td>
+        </form>
+        <form action="{%url 'order_by' 'due_on' %}">
+            {% csrf_token %}
+            <td><button class = "filter">Due On&#129055;</button></td>
+        </form>
+        <form action="{%url 'order_by' 'owner' %}">
+            {% csrf_token %}
+           <td> <button class = "filter">Owner&#129055;</button></td>
+        </form>
+        <form action="{%url 'order_by' 'mark' %}">
+            {% csrf_token %}
+            <td><button class = "filter">Mark&#129055;</button></td>
+        </form>
+    </tr>
+    {% for task in Task %}
+    <tr>
+
+        <td style="color:#5086EB;">{{task.name}}</td>
+        <td>{{task.created_time}} </td>
+        <td>{{task.due_on}}</td>
+        <td>{{task.owner.name}}</td>
+        <td><button class = "done">
+        {%if task.mark %}
+        Not Done
+        {%else%}
+            Done
+        </button></td>
+        {%endif%}
+    </tr>
+ {% endfor %}
+</table>
+<br>
+<form action="{%url 'completed_todos' %}" method="post">
+    {% csrf_token %}
+    <button class = "button2">View Completed tasks</button>
+    <button class = "button3">Delete This List</button>
+</form>
+
+{% endblock %}
