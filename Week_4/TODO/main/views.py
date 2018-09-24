@@ -14,7 +14,7 @@ def todos(request):
 
 @csrf_exempt
 def completed_todos(request):
-    tasks = [i for i in Task.objects.all() if i.mark]
+    tasks = Task.objects.filter(mark=True)
     context = {
         'Task': tasks
     }
