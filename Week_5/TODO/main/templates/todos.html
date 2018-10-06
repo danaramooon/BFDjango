@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block body %}
+<form action="{%url 'new_add' %}">
+    {% csrf_token %}
+    <button class = "button1">Add Task</button>
+</form>
+<hr>
+<h1>Tasks in "List 1"</h1>
+<table>
+    <tr>
+        <form action="{%url 'order_by' 'name' %}">
+            {% csrf_token %}
+            <td><button class = "filter">Task&#129055;</button></td>
+        </form>
+        <form action="{%url 'order_by' 'created_time' %}">
+            {% csrf_token %}
+            <td><button class = "filter">Created Time&#129055;</button></td>
+        </form>
+        <form action="{%url 'order_by' 'due_on' %}">
+            {% csrf_token %}
+            <td><button class = "filter">Due On&#129055;</button></td>
+        </form>
+        <form action="{%url 'order_by' 'owner' %}">
+            {% csrf_token %}
+           <td> <button class = "filter">Owner&#129055;</button></td>
+        </form>
+        <form action="{%url 'order_by' 'mark' %}">
+            {% csrf_token %}
+            <td><button class = "filter">Mark&#129055;</button></td>
+        </form>
+        <td>Activity </td>
+    </tr>
+    {% for task in Task %}
+    <tr>
+        <td style="color:#5086EB;">{{task.name}}</td>
+        <td>{{task.created_time}} </td>
+        <td>{{task.due_on}}</td>
+        <td><a href="{%url 'owner_detail' task.owner.id%}">{{task.owner.name}}</a></td>
+        <td><form action="{% url 'change_button' task.id %}">
+            <button class = "done">
+            {%if task.mark %}
+                Not Done
+            {%else%}
+                Done
+            </button>
+            {%endif%}
+            </form>
+        </td>
+        <td> <a href="{% url 'delete' task.id %}">
+                <button class = "button3">Delete</button>
+             </a>
+        </td>
+
+    </tr>
+ {% endfor %}
+</table>
+<br>
+    <a href="{% url 'completed_todos' %}"><button class = "button2">View Completed tasks</button></a>
+
+{% endblock %}
