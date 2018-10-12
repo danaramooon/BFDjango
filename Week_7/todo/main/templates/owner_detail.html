@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block body %}
+<h2>Owner: {{ owner.name }}</h2>
+
+    <hr />
+
+    <h3>Tasks: {{ tasks.count }}</h3>
+{%for task in tasks%}
+<ul>
+    <li>{{task.name}}</li>
+</ul>
+{%endfor%}
+<br>
+    <a href="{% url 'todos' %}"><button class = "button3">View Tasks</button></a>
+
+{%endblock%}
