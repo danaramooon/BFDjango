@@ -1,0 +1,16 @@
+{% extends 'base.html'%}
+{% block body %}
+    <a href=" {%url 'add_comment'%}"><button type="button" class="btn btn-info">Add Comment</button></a>
+<hr>
+{%for comment in comments%}
+    <p>date: {{comments.date}}</p>
+    <h4>{{comment.comment}}</h4>
+    <hr>
+    {% if user.is_authenticated %}
+    <a href=" {%url 'update_comment' comment.id%}"><button type="button" class="btn btn-info">Update</button></a>
+    <a href="{%url 'delete_comment' comment.id%}"><button type="button" class="btn btn-danger">Delete</button></a>
+    {% endif %}
+{% endfor %}
+
+
+{% endblock %}
