@@ -1,0 +1,39 @@
+{%extends 'base.html'%}
+{%block body %}
+{%if user.is_authenticated %}
+    <a href="{%url 'add_restaurant'%}">
+         <button type="button" class="btn btn-info">Add Restaurant</button>
+    </a>
+{%endif%}
+<br>
+<br>
+<table class="table">
+    <tr>
+        <th>Owner</th>
+        <th>Name</th>
+        <th>Reviews</th>
+    </tr>
+    {% for res in restaurants %}
+    <tr>
+        <td>
+            <a href="{%url 'user_detail' res.user.id%}">{{res.user}}</a>
+        </td>
+        <td><a href="{% url 'restaurant_detail' res.id %}">
+                <h4>{{ res.name }} </h4></a>
+        </td>
+
+        <td><a href="{% url 'res_rev' res.id %}">
+                <h4>Review</h4></a>
+        </td>
+        <td>
+           <a href="{%url 'delete_res' res.id%}">
+               <button type="button" class="btn btn-danger">Delete</button>
+           </a>
+        </td>
+    </tr>
+
+    {% endfor %}
+</table>
+
+
+{%endblock%}

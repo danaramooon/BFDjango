@@ -1,0 +1,17 @@
+{%extends 'base.html'%}
+{%block body%}
+<ul class="list-group">
+        {% for res in ress %}
+
+            <li class="list-group-item">
+                    <h4>Review: {{ res.comment }} </h4>
+                    <h5>Rating: <b>{{res.rating}}</b></h5>
+                    <p>{{res.date}}</p>
+            </li>
+
+        {% endfor %}
+    </ul>
+<a href="{%url 'add_res_rev'%}">
+    <button type="button" class="btn btn-info">Add review</button>
+</a>
+{%endblock%}

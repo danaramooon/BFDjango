@@ -1,0 +1,29 @@
+{%extends 'base.html'%}
+{%block body %}
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+    </tr>
+    {%for dish in dishes%}
+        <tr>
+            <td><a href="{%url 'dish_detail' dish.id%}">{{dish.name}}</a></td>
+            <td>{{dish.price}}</td>
+            <td>
+                <a href="{%url 'delete_dish' dish.id%}">
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </a>
+            </td>
+            <td>
+                <a href="{%url 'rev_dish' dish.id%}">
+                    <button type="button" class="btn info">review</button>
+                </a>
+            </td>
+
+        </tr>
+    {%endfor%}
+</table>
+<a href="{%url 'add_dish'%}">
+    <button type="button" class="btn btn-info">Add dish</button>
+</a>
+{%endblock%}

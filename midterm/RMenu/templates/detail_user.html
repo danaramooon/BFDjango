@@ -1,0 +1,12 @@
+{%extends 'base.html'%}
+{%block body%}
+<h2>Owner: {{ user.name }}</h2>
+    <hr />
+
+    <h3>Restaurants: {{ restaurants.count }}</h3>
+{%for res in restaurants%}
+<ul>
+    <li>{{res.name}}</li>
+</ul>
+{%endfor%}
+{%endblock%}

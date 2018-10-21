@@ -1,0 +1,23 @@
+{%extends 'base.html'%}
+{%block body %}
+<table class="table">
+    <tr>
+        <th>Restaurant</th>
+        <th>Telephone</th>
+        <th>City</th>
+        <th>Number</th>
+    </tr>
+        <tr>
+            <td>{{res.name}}</td>
+            <td>{{res.telephone}}</td>
+            <td>{{res.city}}</td>
+            <td>{{res.number}}</td>
+            <td>
+                <a href="{% url 'dish' res.id %}">
+                    <button type="button" class="btn btn-info">Dishes</button>
+                </a>
+        </td>
+        </tr>
+</table>
+
+{%endblock%}
