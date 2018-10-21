@@ -1,0 +1,30 @@
+{%extends 'base.html'%}
+{%block body %}
+<a href="{%url 'add_res'%}">
+         <button type="button" class="btn btn-info">Add Restaurant</button>
+</a>
+<table class="table">
+    <tr>
+        <th>Owner</th>
+        <th>Name</th>
+        <th>Reviews</th>
+    </tr>
+    {% for res in object_lis %}
+    <tr>
+        <td>{{res.user}}</td>
+        <td><h4>{{ res.name }} </h4></td>
+        <td><a href="{%url 'delete_res' res.id%}">
+               <button type="button" class="btn btn-danger">Delete</button>
+           </a>
+        </td>
+        <td><a href="{%url 'update_res' res.id%}">
+               <button type="button" class="btn btn-info">Update</button>
+           </a>
+        </td>
+    </tr>
+
+    {% endfor %}
+</table>
+
+
+{%endblock%}
