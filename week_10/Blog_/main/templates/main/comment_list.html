@@ -1,0 +1,27 @@
+{%extends 'base.html'%}
+{%block body%}
+{%for post in Comment%}
+    <div class = "container" style="border: 1px solid; margin-top:10px; padding:5px;">
+        <h2>
+            {{post.owner}}
+        </h2>
+        <div class="container" style="border: 1px solid #e6e6e6; width:auto;padding:10px;">
+            <p>
+                {{post.text}}
+            </p>
+        </div>
+        <h6>
+            {{post.date}}
+        </h6>
+        {%if user == post.owner%}
+            <a href= "{%url 'update_com' post.id%}" class="btn btn-info pull-right">
+                Update
+            </a>
+            <a href= "{%url 'delete_com' post.id%}" class="btn btn-danger pull-right">
+                Delete
+            </a>
+        {%endif%}
+    </div>
+
+{%endfor%}
+{%endblock%}

@@ -1,0 +1,25 @@
+{%extends 'base.html'%}
+{%block body%}
+<h1> Post
+    {%if form.text.value == None%}
+        Add
+    {%else%}
+        Update
+    {%endif%}
+</h1>
+
+<form action="." method="post">
+    {%csrf_token%}
+        {%if form.text.value == None%}
+            <table>
+                {{form.as_table}}
+            </table>
+        {%else%}
+            <input type="text" name="{{form.text.name}}"
+                value = "{{form.text.value}}"
+                class = "form-control">
+        {%endif%}
+    <input type="submit" class="btn btn-info">
+</form>
+
+{%endblock%}

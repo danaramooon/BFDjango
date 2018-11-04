@@ -1,0 +1,11 @@
+{%extends 'base.html'%}
+{%block body%}
+<h2>
+    Welcome,
+    {%if user.is_authenticated%}
+        {{user.username}}. Thank u!
+    {%else%}
+        new user. Please Log in
+    {%endif%}
+</h2>
+{%endblock%}
