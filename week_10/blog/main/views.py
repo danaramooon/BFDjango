@@ -1,26 +1,35 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts  import render
 from django.urls import reverse_lazy
-from .form import PostUpdateForm
 from django.views.generic import (
     ListView,
     CreateView,
     DeleteView,
     UpdateView,
-    DetailView
+    DetailView,
+    TemplateView
 )
-from .models import Post,Comment
+from .models import Post, Comment
 
 class PostListView(LoginRequiredMixin,ListView):
     model = Post
-    context_object_name = 'Post'
+    context_object_name = 'posts'
+
+
+class PostDetailView(LoginRequiredMixin, DetailView):
+    model = Post
+    context_object_name = 'post'
+    lookup_field = 'post_pk'
+
+    def get_object(self):
+        return Post.objects.get(id=self.kwargs[self.lookup_field])
 
 class MyPostListView(LoginRequiredMixin,ListView):
     model = Post
-    context_object_name = 'Post'
+    context_object_name = 'posts'
 
     def get_queryset(self):
-        return Post.myPost.my_post(user=self.request.user)
+        return Post.my_post.for_user(self.request.user)
 
 class PostCreateView(LoginRequiredMixin,CreateView):
     model = Post
@@ -28,51 +37,44 @@ class PostCreateView(LoginRequiredMixin,CreateView):
     success_url=reverse_lazy('post')
 
     def form_valid(self,form):
-        form.instance.owner = self.request.user
+        form.instance.created_by = self.request.user
         return super().form_valid(form)
 
-class CommentDetailView(LoginRequiredMixin,ListView):
+class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
-    context_object_name = 'Comment'
+    fields = ('text', )
+    success_url = reverse_lazy('post')
 
-class PostCommentCreateView(LoginRequiredMixin,CreateView):
-    model = Comment
-    fields=('text',)
-    success_url=reverse_lazy('comment')
-
-    def form_valid(self,form):
-        form.instance.owner = self.request.user
+    def form_valid(self, form):
+        post = Post.objects.get(id=self.kwargs['pk'])
+        form.instance.post = post
+        form.instance.created_by = self.request.user
         return super().form_valid(form)
+
 
 class PostUpdateView(LoginRequiredMixin,UpdateView):
     model = Post
-    form_class = PostUpdateForm
+    fields = ('text',)
     success_url = reverse_lazy('post')
 
     def get_queryset(self):
-        return Post.myPost.my_post(user = self.request.user)
+        return Post.my_post.for_user(user = self.request.user)
 
 class PostDeleteView(LoginRequiredMixin,DeleteView):
     model = Post
     success_url = reverse_lazy('post')
 
     def get_queryset(self):
-        return Post.myPost.my_post(user = self.request.user)
+        return Post.my_post.for_user(user = self.request.user)
 
 class CommentUpdateView(LoginRequiredMixin,UpdateView):
     model = Comment
-    form_class = PostUpdateForm
-    success_url = reverse_lazy('comment')
-
-    def get_queryset(self):
-        return Comment.myPost.my_post(user = self.request.user)
+    fields = ('text',)
+    success_url = reverse_lazy('post')
 
 class CommentDeleteView(LoginRequiredMixin,DeleteView):
     model = Comment
-    success_url = reverse_lazy('comment')
+    success_url = reverse_lazy('post')
 
-    def get_queryset(self):
-        return Comment.myPost.my_post(user = self.request.user)
-
-def home(request):
-    return render(request, "home.html")
+class HomeView(TemplateView):
+   template_name =  "home.html"
